@@ -2,9 +2,11 @@
 
 namespace Pariter\Plugins;
 
+use Dugwood\Core\Security\Crawler;
 use Dugwood\Core\Server;
 use Exception;
 use Pariter\Common\Kernel;
+use Pariter\Library\Url;
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\User\Plugin;
@@ -38,6 +40,22 @@ class DispatchEvents extends Plugin {
 		static $sMaxAge = 0, $maxAge = 0, $last = false;
 		try {
 			Kernel::setLanguage($dispatcher->getDI(), $dispatcher->getParam('language', 'string', 'en'));
+
+			/* Redirect on HTTPS */
+			if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'http' || $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
+				if ($_SERVER['HTTP_X_FORWARDED_PROTO'] !== 'https') {
+					if ($this->request->getMethod() !== 'GET' && $this->request->getMethod() !== 'HEAD') {
+						/* Call is strange... bad crawler? */
+						Crawler::check(true);
+						return $dispatcher->forward(['controller' => 'error', 'action' => 'exception']);
+					}
+					return Url::redirect(Url::getHost('http') . $_SERVER['REQUEST_URI'], 301, false);
+				}
+				if ($this->config->debug === false) {
+					/* 6 months */
+					header('Strict-Transport-Security: max-age=15768000');
+				}
+			}
 
 			$controllerName = ucfirst($dispatcher->getControllerName());
 			$actionName = $dispatcher->getActionName();
