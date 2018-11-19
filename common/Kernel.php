@@ -199,7 +199,7 @@ class Kernel {
 				'.volt' => function ($view, $di) {
 					$volt = new Volt($view, $di);
 					$volt->setOptions(array(
-						'compiledPath' => $this->getCache()->getVoltDirectory(),
+						'compiledPath' => $this->getCache()->getDirectory('volt', true),
 						'compiledSeparator' => '_',
 						'compileAlways' => $di->getConfig()->environment !== 'prod'
 					));
