@@ -1,0 +1,21 @@
+# Noms à ne pas synchroniser :
+ignore = Name .bak.*
+
+# Synchronisation des propriétaires
+owner = true
+
+# On préfère les fichiers les plus récents, pour ne pas être bloqué en cas de synchro multiple
+prefer = newer
+times = true
+
+# Log !
+logfile = /home/pariter/cache/unison-static.log
+
+contactquietly = true
+diff = colordiff -B
+
+# On garde un certain nombre de backups, car tout le monde a le droit à l'erreur
+backup = Name *
+backuploc = local
+maxbackups = 10
+
