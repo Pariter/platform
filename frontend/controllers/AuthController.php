@@ -95,6 +95,11 @@ class AuthController extends Controller {
 
 			$email = $this->request->getPost('email', 'email');
 			$displayName = $this->request->getPost('displayName', 'string');
+			if (!$email || !$displayName) {
+				$this->response->setHeader('Cache-Control', Server::getCacheHeaders(0, 0));
+				$this->response->redirect(Url::get('auth', ['action' => 'profile']), true, 302);
+				return false;
+			}
 			$user = User::findFirst($user->id);
 			$user->email = $email;
 			$user->displayName = $displayName;
@@ -107,8 +112,8 @@ class AuthController extends Controller {
 			return false;
 		}
 
-		$this->view->setVar('email', htmlspecialchars($user->email ?: $profile->email ?? ''));
-		$this->view->setVar('displayName', htmlspecialchars($user->displayName ?: $profile->displayName ?? ''));
+		$this->view->setVar('email', $user->email ?: $profile->email ?? '');
+		$this->view->setVar('displayName', $user->displayName ?: $profile->displayName ?? '');
 		return true;
 	}
 

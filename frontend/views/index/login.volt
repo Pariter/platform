@@ -6,12 +6,12 @@
 
 {% block body %}
 	<div class="container">
-		<h1 class="text-center">Pariter platform</h1>
+		<h1 class="text-center">{{ 'pariter_platform'|trans }}</h1>
 
 		<div class="text-center">
-			Register for future updates on the project:<br/><br/>
+			{{ 'register_for_updates'|trans }}{{ 'space_before_column'|trans }}:<br/><br/>
 			{% for provider in providers %}
-				<button class="btn btn-default" onclick="return _hybrid.auth('{{ provider }}');">Register with {{ provider }}</button><br/><br/>
+				<button class="btn btn-default" onclick="return _hybrid.auth('{{ provider }}');">{{ 'register_with'|trans }} {{ provider }}</button><br/><br/>
 			{% endfor %}
 		</div>
 	</div>

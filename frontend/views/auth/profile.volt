@@ -6,20 +6,20 @@
 
 {% block body %}
 	<div class="container">
-		<h1 class="text-center">Pariter platform</h1>
+		<h1 class="text-center">{{ 'pariter_platform'|trans }}</h1>
 
 		<div class="text-center col-xs-12 col-sm-6 col-sm-offset-3">
-			Please update your profile settings:
+			{{ 'update_your_settings'|trans }}{{ 'space_before_column'|trans }}:
 			<form action="{{ 'auth'|url({'action':'profile'}) }}" method="post">
 				<div class="form-group">
-					<label for="email">Email address</label>
-					<input type="text" class="form-control" name="email" id="email" placeholder="Email" value="{{ email }}"/>
+					<label for="email">{{ 'email'|trans }}</label>
+					<input type="text" class="form-control" name="email" id="email" placeholder="{{ 'email'|trans|escape }}" value="{{ email|escape }}"/>
 				</div>
 				<div class="form-group">
-					<label for="displayName">Display name</label>
-					<input type="text" class="form-control" name="displayName" id="displayName" placeholder="Display Name" value="{{ displayName }}"/>
+					<label for="displayName">{{ 'display_name'|trans }}</label>
+					<input type="text" class="form-control" name="displayName" id="displayName" placeholder="{{ 'display_name'|trans|escape }}" value="{{ displayName|escape }}"/>
 				</div>
-				<button type="submit" class="btn btn-default">Submit</button>
+				<button type="submit" class="btn btn-default">{{ 'submit'|trans }}</button>
 			</form>
 		</div>
 	</div>

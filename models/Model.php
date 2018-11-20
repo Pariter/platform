@@ -7,6 +7,7 @@ use Dugwood\Core\Debug\Database;
 use Phalcon\DI;
 use Phalcon\Exception;
 use Phalcon\Mvc\Model as MainModel;
+use Phalcon\Mvc\Model\MetaData;
 
 class Model extends MainModel {
 
@@ -209,6 +210,18 @@ class Model extends MainModel {
 		}
 		if ($this->hasSnapshotData() === true && count($this->getChangedFields()) > 0) {
 			$this->_hasChanged = true;
+		}
+		$di = $this->getDI();
+		$annotations = $di->getAnnotations()->get($this)->getPropertiesAnnotations();
+		/* Encode HTML characters in database */
+		foreach ($di->getModelsMetadata()->readColumnMapIndex($this, MetaData::MODELS_COLUMN_MAP) as $property) {
+			if ($property[0] !== '_' && property_exists($this, $property) && !is_object($this->$property) && !is_array($this->$property) && !is_numeric($this->$property) && $annotations[$property]->has('HtmlSafe') === false) {
+				$value = $this->$property;
+				if ($value && !($this instanceof Session)) {
+					$value = htmlspecialchars(htmlspecialchars_decode($value, ENT_QUOTES | ENT_HTML5), ENT_COMPAT | ENT_HTML5);
+				}
+				$this->$property = $value;
+			}
 		}
 	}
 

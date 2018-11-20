@@ -8,6 +8,7 @@ use Dugwood\Core\Debug\Database;
 use Dugwood\Core\Security\Crawler;
 use Dugwood\Core\Server;
 use Exception;
+use Pariter\Models\Translation;
 use Pariter\Plugins\DispatchEvents;
 use Pariter\Plugins\ModelAnnotations;
 use Pariter\Plugins\ModelAnnotationsMetaData;
@@ -24,6 +25,7 @@ use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\Model\MetaData\Apcu as MetaDataAdapter;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt;
+use Phalcon\Translate\Adapter\NativeArray;
 
 class Kernel {
 
@@ -167,7 +169,7 @@ class Kernel {
 		$di['translate'] = function() use ($module) {
 			$controller = $this->getDispatcher()->getControllerName() ?? 'index';
 			$config = $this->getConfig();
-			$compiledKey = $this->getCache()->getPrefix() . 'messages-' . $module . '-' . $controller . '-' . $config->language;
+			$compiledKey = $this->getCache()->getPrefix() . 'pariter-messages-' . $module . '-' . $controller . '-' . $config->language;
 			if (!($messages = apcu_fetch($compiledKey))) {
 				$messages = [];
 				foreach (['default', $controller] as $template) {

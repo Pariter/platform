@@ -30,7 +30,7 @@ class IndexController extends Controller {
 		$this->view->setVar('_hreflang', $hreflang);
 
 		/* Varnish headers (cache) */
-		$this->cache->addBanHeader('login');
+		$this->cache->addBanHeader('pariter-login');
 
 		return true;
 	}
