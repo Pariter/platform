@@ -1,4 +1,5 @@
 /* include jquery.js */
+/* include bootstrap.js */
 
 var _pariter = {
 	language: 'en',

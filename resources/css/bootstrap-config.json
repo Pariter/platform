@@ -392,8 +392,11 @@
     "responsive-utilities.less",
     "navs.less",
     "navbar.less",
-    "alerts.less"
+    "alerts.less",
+    "component-animations.less"
   ],
-  "js": [],
+  "js": [
+    "collapse.js"
+  ],
   "customizerUrl": "<none>"
 }
