@@ -9,11 +9,10 @@ $_config = [
 	'session' => 'PHPSESSID',
 	'cookiePrefix' => 'pariter',
 	'database' => [
-		'username' => '',
-		'password' => '',
+		'username' => 'root',
+		'password' => 'password',
 		'dbname' => 'PARITER'
-	],
-	'static-resources' => '/home/pariter/media/platform/',
+	]
 ];
 
 $config = require __DIR__ . '/config.php';

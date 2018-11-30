@@ -22,9 +22,10 @@ return [
 	'application' => [
 		'baseUri' => '/',
 	],
-	'storage' => '/home/pariter/cache/pariter-' . $_config['environment'] . '/',
+	'storage' => $root . 'cache/pariter-' . $_config['environment'] . '/',
 	'languages' => ['fr' => 'fr_FR', 'en' => 'en_US'],
 	'language' => '',
-	'resources' => $_config['static-resources'],
-	'images' => $_config['static-resources'] . 'images/',
+	'resources' => $root . 'resources/',
+	'media' => $root . 'media/',
+	'images' => $root . 'media/images/'
 ];

@@ -36,6 +36,16 @@ class Kernel {
 			return $this->di[$module];
 		}
 
+		/* Core available in production only */
+		if (!isset($_SERVER['SERVER_ID'])) {
+			spl_autoload_register(function ($class) {
+				if (strpos($class, 'Dugwood\\Core\\') === 0) {
+					include __DIR__ . '/../library/dugwood-core/' . str_replace('\\', '/', substr($class, 13)) . '.php';
+					return true;
+				}
+			});
+		}
+
 		$namespaces = [
 			'Pariter\Common\Controllers' => __DIR__ . '/controllers/',
 			'Pariter\Models' => __DIR__ . '/../models/',
@@ -101,7 +111,7 @@ class Kernel {
 				}
 			}
 			if (empty($connection)) {
-				throw new Exception('No database available');
+				throw new Exception($e ? $e->getMessage() : 'No database available');
 			}
 			if ($hasException === true) {
 				throw new Exception($e);

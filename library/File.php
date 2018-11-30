@@ -47,6 +47,8 @@ class File extends Injectable {
 		}
 		if (!$filemtime) {
 			trigger_error('Can\'t find file: ' . $name . '.' . $extension . ' from: ' . implode(', ', $files));
+			/* Try downloading the file */
+			self::downloadFile($name, $extension);
 			return false;
 		}
 		$save = ['file' => realpath($file), 'filemtime' => $filemtime, 'override' => ($directory === 'images' && $file === $files[0])];
@@ -54,16 +56,23 @@ class File extends Injectable {
 		return $save;
 	}
 
-	static public function downloadFile($path) {
+	static public function downloadFile($name, $extension) {
 		$config = DI::getDefault()->getConfig();
-		if (file_exists($path) || $config->environment !== 'dev' && $config->environment !== 'staging' || $config->debug !== true || $path[0] !== '/' || strpos($path, '..') !== false) {
+		if ($config->environment !== 'dev' && $config->environment !== 'staging' || $config->debug !== true || !isset($config->download)) {
 			return false;
 		}
+
+		var_dump($name, $extension);
+		exit;
+
 		$dir = dirname($path);
 		if (!is_dir($dir)) {
 			mkdir($dir, 0755, true);
 		}
-		$productionPath = str_replace('media/staging/static', 'media/static', $path);
+		$productionPath = str_replace('media/staging/', 'media/', $path);
+		if ($productionPath === $path) {
+			return false;
+		}
 		if ($config->environment === 'staging') {
 			$cmd = 'cp ' . $productionPath . ' ' . $path . ' 2>&1';
 		} else {

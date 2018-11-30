@@ -12,6 +12,9 @@
 		"sebastian/phpcpd": "^3"
 	},
 	"config": {
-		"optimize-autoloader": true
+		"optimize-autoloader": true,
+		"apcu-autoloader": true,
+		"htaccess-protect": false,
+		"cache-dir": "./cache"
 	}
 }
