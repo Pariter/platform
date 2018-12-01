@@ -21,7 +21,9 @@ RUN apt-get update -y && \
 # Install essential tools
 RUN apt-get install -yq --no-install-suggests --no-install-recommends \
     curl \
-	sudo
+	sudo \
+	unzip \
+	git
 
 # Adding repositories
 RUN curl -s https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh | bash && \

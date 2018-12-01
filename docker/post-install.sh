@@ -12,11 +12,11 @@ case $1 in
 		cd $DIR/config
 		if [ ! -f "config.dev.php" ]; then
 			sudo -u www-data cp config.sample.php config.dev.php
-			chown a+rw config.dev.php
+			chmod a+rw config.dev.php
 		fi
 		if [ ! -f "providers.ini" ]; then
 			sudo -u www-data touch providers.ini
-			chown a+rw providers.ini
+			chmod a+rw providers.ini
 		fi
 		;;
 
