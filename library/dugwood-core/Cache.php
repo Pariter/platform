@@ -38,7 +38,7 @@ class Cache {
 
 	private function __construct() {
 		$this->_releaseKey = 'dev-release';
-		$this->_directory = realpath(__DIR__ . '/../../cache') . '/';
+		$this->_directory = realpath(__DIR__ . '/../..') . '/cache/';
 		$release = apcu_fetch($this->_releaseKey);
 		if (!$release) {
 			$this->updateRelease();
