@@ -10,6 +10,7 @@ return [
 	'host' => $_config['host'],
 	'environment' => $_config['environment'],
 	'debug' => $_config['debug'],
+	'download' => $_config['debug'] === true ? $_config['download'] : '',
 	'session' => $_config['session'],
 	'cookiePrefix' => $_config['cookiePrefix'],
 	'database' => [
@@ -25,7 +26,7 @@ return [
 	'storage' => $root . 'cache/pariter-' . $_config['environment'] . '/',
 	'languages' => ['fr' => 'fr_FR', 'en' => 'en_US'],
 	'language' => '',
-	'resources' => $root . 'resources/',
 	'media' => $root . 'media/',
+	'resources' => $root . 'media/resources/',
 	'images' => $root . 'media/images/'
 ];

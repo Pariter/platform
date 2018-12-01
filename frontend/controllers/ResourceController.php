@@ -95,16 +95,18 @@ class ResourceController extends Controller {
 
 			case 'png':
 				$this->response->setContentType('image/png');
-				$thumb = tempnam($this->cache->getDirectory(), 'resourceController');
-				file_put_contents($thumb, $content);
-				$cmd = 'optipng -silent -o5 ' . escapeshellarg($thumb);
-				$result = Command::controlledExec($cmd, 60);
-				if ($result !== '') {
-					trigger_error($result);
-				} else {
-					$content = file_get_contents($thumb);
+				if ($this->config->environment === 'prod') {
+					$thumb = tempnam($this->cache->getDirectory(), 'resourceController');
+					file_put_contents($thumb, $content);
+					$cmd = 'optipng -silent -o5 ' . escapeshellarg($thumb);
+					$result = Command::controlledExec($cmd, 60);
+					if ($result !== '') {
+						trigger_error($result);
+					} else {
+						$content = file_get_contents($thumb);
+					}
+					unlink($thumb);
 				}
-				unlink($thumb);
 				break;
 
 			case 'gif':

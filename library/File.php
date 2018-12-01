@@ -3,8 +3,6 @@
 namespace Pariter\Library;
 
 use Dugwood\Core\Cache;
-use Dugwood\Core\Command;
-use Dugwood\Core\Configuration;
 use Phalcon\DI;
 use Phalcon\DI\Injectable;
 
@@ -62,30 +60,21 @@ class File extends Injectable {
 			return false;
 		}
 
-		var_dump($name, $extension);
-		exit;
+		$curl = curl_init($config->download . 'resources/' . $name . '/1.' . $extension);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$contents = curl_exec($curl);
+		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
 
-		$dir = dirname($path);
-		if (!is_dir($dir)) {
-			mkdir($dir, 0755, true);
+		if ($status === 200) {
+			$path = $config->resources . $name . '.' . $extension;
+			if (!file_put_contents($path, $contents)) {
+				mkdir(dirname($path), 0755, true);
+				file_put_contents($path, $contents);
+			}
+
+			clearstatcache();
 		}
-		$productionPath = str_replace('media/staging/', 'media/', $path);
-		if ($productionPath === $path) {
-			return false;
-		}
-		if ($config->environment === 'staging') {
-			$cmd = 'cp ' . $productionPath . ' ' . $path . ' 2>&1';
-		} else {
-			$masterIp = Configuration::$fullList[Configuration::mainId];
-			$cmd = 'scp ' . $masterIp . ':/' . $productionPath . ' ' . $path . ' 2>&1';
-		}
-		$result = Command::controlledExec($cmd, 50);
-		if ($result !== '') {
-			trigger_error('Downloading ' . $path . ' : ' . json_encode($result));
-			unlink($path);
-			return false;
-		}
-		clearstatcache();
 		return true;
 	}
 
