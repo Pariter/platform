@@ -21,8 +21,9 @@ https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-
 2. Change directory to the cloned repository: `cd platform`
 3. Edit docker-compose.yml to suit your needs: `editor docker-compose.yml`
 4. Start the container and post-install scripts: `sh docker.sh start` (please read the file before running it)
-5. Edit code and submit PR!
-6. Stop the container: `sh docker.sh stop`
+5. Launch http://localhost:50080/en/ in your favorite browser
+6. Edit code and submit PR!
+7. Stop the container: `sh docker.sh stop`
 
 ## Side note about post-installation script
 There's no easy option to run a post-installation script on Docker with `docker-compose.yml`. See https://github.com/docker/compose/issues/1809 for instance.
