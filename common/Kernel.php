@@ -189,7 +189,7 @@ class Kernel {
 						}
 						/* Load French, English, then the desired language, which will return exactly the opposite */
 						foreach (['fr', 'en', $config->language] as $language) {
-							if (($text = $translation->{$language . 'Text'})) {
+							if (($text = $translation->{$language . 'Text'}) || $translation->keyword === 'space_before_column') {
 								$messages[$translation->keyword] = $text;
 							}
 						}

@@ -23,6 +23,11 @@ return function () {
 	$router->addGet('/{language:[a-z]{2}}/{controller:auth}/{action:(hybrid|endpoint|profile|thanks)}')->setName('auth');
 	$router->addPost('/{language:[a-z]{2}}/{controller:auth}/{action:(profile)}');
 
+	/* View */
+	$router->addGet('/{language:[a-z]{2}}/{controller:user}/{action:view}/{id:\d+}')->setName('view');
+	/* List */
+	$router->addGet('/{language:[a-z]{2}}/{controller:user}/{action:list}/')->setName('list');
+
 	/* Common ressources */
 	$router->addGet('/resources/{name:[a-z0-9\-]+}/{checksum:[0-9]+}.{type:[a-z0-9]+}', [
 				'controller' => 'resource',

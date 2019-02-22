@@ -4,6 +4,7 @@ namespace Pariter\Models;
 
 use Dugwood\Core\Cache;
 use Exception;
+use Phalcon\Db\RawValue;
 use Phalcon\Mvc\Model\Message;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email;
@@ -32,6 +33,13 @@ class User extends Model {
 	public $email = '';
 
 	/**
+	 * @var string $created
+	 *
+	 * @Column(column="USR_CREATED", type="string")
+	 */
+	public $created = '';
+
+	/**
 	 * @var string $displayName
 	 *
 	 * @Column(column="USR_DISPLAY_NAME", type="string")
@@ -56,6 +64,10 @@ class User extends Model {
 
 	public function beforeSave() {
 
+		if ($this->created <= 0) {
+			$this->created = new RawValue('NOW()');
+		}
+
 		if ($this->email) {
 			$validation = new Validation();
 			$validation->add('email', new Email());
@@ -71,7 +83,7 @@ class User extends Model {
 		return parent::beforeSave();
 	}
 
-	static public function upsertByProvider($provider, $identifier) {
+	public static function upsertByProvider($provider, $identifier) {
 		$column = strtolower(preg_replace('~[^a-z0-9]+~i', '', $provider)) . 'Identifier';
 		$user = self::findFirst(['conditions' => '[' . $column . '] = :identifier:', 'bind' => ['identifier' => $identifier]]);
 		if (!$user) {
@@ -82,6 +94,14 @@ class User extends Model {
 			}
 		}
 		return $user;
+	}
+
+	public static function getAllByParameters(array $parameters = []) {
+		$offset = $parameters['offset'] ?? 0;
+		$limit = min(100, $parameters['limit'] ?? 20);
+		$order = $parameters['order'] ?? 'id ASC';
+
+		return self::find(['limit' => $limit, 'offset' => $offset, 'order' => $order]);
 	}
 
 }

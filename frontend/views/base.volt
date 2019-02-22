@@ -32,6 +32,9 @@
 				</div>
 				<div class="collapse navbar-collapse" id="navbar-collapse-1">
 					<ul class="nav navbar-nav">
+						<li><a href="{{ 'list'|url(['controller':'user']) }}">{{ 'users'|trans }}</a></li>
+					</ul>
+					<ul class="nav navbar-nav">
 						<li><a href="https://pariter.io/">{{ 'main_site'|trans }}</a></li>
 					</ul>
 				</div>

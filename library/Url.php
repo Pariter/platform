@@ -59,6 +59,14 @@ class Url extends Injectable {
 					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'controller' => $type, 'action' => $parameters['action']]);
 					break;
 
+				case 'view':
+					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'controller' => $parameters['controller'], 'action' => $type, 'id' => $parameters['id']]);
+					break;
+
+				case 'list':
+					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'controller' => $parameters['controller'], 'action' => $type]);
+					break;
+
 				case 'resource':
 					$resource = preg_replace('~[^a-z0-9\.\-]+~', '', $parameters['file']);
 					$filename = pathinfo($resource, PATHINFO_FILENAME);
