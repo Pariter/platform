@@ -60,7 +60,11 @@ class Url extends Injectable {
 					break;
 
 				case 'view':
-					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'controller' => $parameters['controller'], 'action' => $type, 'id' => $parameters['id']]);
+					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'controller' => $parameters['controller'], 'action' => $parameters['action'] ?? $type, 'id' => $parameters['id']]);
+					break;
+
+				case 'editAjax':
+					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'controller' => $parameters['controller'], 'action' => $type]);
 					break;
 
 				case 'list':

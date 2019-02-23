@@ -39,7 +39,9 @@ class DispatchEvents extends Plugin {
 	public function beforeDispatch(Event $event, Dispatcher $dispatcher) {
 		static $sMaxAge = 0, $maxAge = 0, $last = false;
 		try {
-			Kernel::setLanguage($dispatcher->getDI(), $dispatcher->getParam('language', 'string', 'en'));
+			if ($dispatcher->wasForwarded() === false) {
+				Kernel::setLanguage($dispatcher->getDI(), $dispatcher->getParam('language', 'string', 'en'));
+			}
 
 			/* Redirect on HTTPS */
 			if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'http' || $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {

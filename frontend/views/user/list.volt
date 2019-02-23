@@ -10,7 +10,7 @@
 
 		<div class="text-center">
 			{% for user in users %}
-				<a href="{{ 'view'|url(['controller':'user', 'id':user.id]) }}">{{ user.displayName }}</a>
+				<a href="{{ 'view'|url({'controller':'user', 'id':user.id}) }}">{{ user.displayName }}</a>
 				({{ 'registered'|trans }}{{ 'space_before_column'|trans }}: {{ user.created }})<br/>
 			{% endfor %}
 		</div>

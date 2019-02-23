@@ -3,6 +3,7 @@
 $_config['debug'] = isset($_config['debug']) && (isset($_SERVER['HTTP_HOST']) && isset($_SERVER['HTTP_X_STAGING']) || !isset($_SERVER['HTTP_HOST'])) ? $_config['debug'] : false;
 
 $root = realpath(__DIR__ . '/..') . '/';
+$mediaRoot = realpath(__DIR__ . '/../..') . '/media/platform/';
 
 return [
 	'root' => $root,
@@ -26,7 +27,7 @@ return [
 	'storage' => $root . 'cache/pariter-' . $_config['environment'] . '/',
 	'languages' => ['fr' => 'fr_FR', 'en' => 'en_US'],
 	'language' => '',
-	'media' => $root . 'media/',
-	'resources' => $root . 'media/resources/',
-	'images' => $root . 'media/images/'
+	'media' => $mediaRoot,
+	'resources' => $mediaRoot . 'resources/',
+	'images' => $mediaRoot . 'images/'
 ];
