@@ -34,9 +34,15 @@ class IndexController extends Controller {
 				$this->view->setVar('origin', 'https://dev.application.pariter.io/');
 				break;
 
+			case 'p':
+				$this->view->setVar('_ignoreNav', true);
+				$this->view->setVar('from', 'application');
+				$this->view->setVar('origin', 'https://application.pariter.io/');
+				break;
+
 			default:
 				$this->view->setVar('from', 'index');
-				$this->view->setVar('origin', 'https://application.pariter.io/');
+				$this->view->setVar('origin', 'https://platform.pariter.io/');
 				break;
 		}
 
