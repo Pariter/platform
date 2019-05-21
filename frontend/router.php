@@ -29,19 +29,6 @@ return function () {
 				'action' => 'handle'])
 			->setName('api');
 
-	/* Progressive Web Application */
-	$router->addGet('/{language:[a-z]{2}}/application/', [
-				'controller' => 'application',
-				'action' => 'resource',
-				'directory' => 'root',
-				'name' => 'index',
-				'type' => 'html'])
-			->setName('application');
-	$router->addGet('/application/{directory:[a-z0-9\-/]+}/{name:[a-zA-Z0-9\-_\.]+}.{checksum:[0-9]+}.{type:[a-z0-9]+}', [
-				'controller' => 'application',
-				'action' => 'resource'])
-			->setName('application-resource');
-
 	/* Common ressources */
 	$router->addGet('/resources/{name:[a-z0-9\-]+}/{checksum:[0-9]+}.{type:[a-z0-9]+}', [
 				'controller' => 'resource',
