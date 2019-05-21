@@ -20,14 +20,27 @@ return function () {
 				'action' => 'login'])
 			->setName('login');
 	/* Auth */
-	$router->addGet('/{language:[a-z]{2}}/{controller:auth}/{action:(hybrid|endpoint|profile|thanks)}')->setName('auth');
+	$router->addGet('/{language:[a-z]{2}}/{controller:auth}/{action:(hybrid|endpoint|profile|thanks|token)}')->setName('auth');
 	$router->addPost('/{language:[a-z]{2}}/{controller:auth}/{action:(profile)}');
 
-	/* View/Edit */
-	$router->addGet('/{language:[a-z]{2}}/{controller:user}/{action:(view|edit)}/{id:\d+}')->setName('view');
-	$router->addPost('/{language:[a-z]{2}}/{controller:user}/{action:editAjax}')->setName('editAjax');
-	/* List */
-	$router->addGet('/{language:[a-z]{2}}/{controller:user}/{action:list}/')->setName('list');
+	/* API */
+	$router->add('/{language:[a-z]{2}}/api/{type:(users)}/{id:[0-9]*}', [
+				'controller' => 'api',
+				'action' => 'handle'])
+			->setName('api');
+
+	/* Progressive Web Application */
+	$router->addGet('/{language:[a-z]{2}}/application/', [
+				'controller' => 'application',
+				'action' => 'resource',
+				'directory' => 'root',
+				'name' => 'index',
+				'type' => 'html'])
+			->setName('application');
+	$router->addGet('/application/{directory:[a-z0-9\-/]+}/{name:[a-zA-Z0-9\-_\.]+}.{checksum:[0-9]+}.{type:[a-z0-9]+}', [
+				'controller' => 'application',
+				'action' => 'resource'])
+			->setName('application-resource');
 
 	/* Common ressources */
 	$router->addGet('/resources/{name:[a-z0-9\-]+}/{checksum:[0-9]+}.{type:[a-z0-9]+}', [

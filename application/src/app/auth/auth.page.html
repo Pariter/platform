@@ -1,0 +1,27 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>
+			Pariter
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list *ngIf="parameters.debug === true && parameters.logEntries.length">
+		<ion-item>
+			Debug:
+			<ul *ngFor="let entry of parameters.logEntries">
+				<li>{{ entry }}</li>
+			</ul>
+		</ion-item>
+	</ion-list>
+
+	<ion-card *ngIf="!parameters.token">
+		<ion-card-header>
+			<ion-card-title>{{ 'signin' | translate }}</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+			<iframe [src]="parameters.auth"></iframe>
+		</ion-card-content>
+	</ion-card>
+</ion-content>

@@ -1,0 +1,23 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>
+			Pariter
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-card *ngIf="model">
+		<ion-card-header>
+			<ion-card-title>View ({{ type }}): {{ model.attributes.displayName }}</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-list>
+				<ion-item>
+					<ion-label>{{ model.attributes.created }}</ion-label>
+				</ion-item>
+			</ion-list>
+			<ion-button [routerLink]="router.get('home')">Back</ion-button>
+		</ion-card-content>
+	</ion-card>
+</ion-content>

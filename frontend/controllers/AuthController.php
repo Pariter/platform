@@ -63,6 +63,7 @@ class AuthController extends Controller {
 			if ($user) {
 				$this->session->setUser($user);
 				$this->session->set('profile', json_encode($profile));
+				$this->view->setVar('token', dechex($user->id) . '.' . $user->getToken());
 				$this->view->setVar('registered', true);
 			}
 		} catch (Exception $e) {

@@ -23,7 +23,7 @@ class File extends Injectable {
 			if ($extension === 'js' || $extension === 'json' || $extension === 'css' || $extension === 'txt' || $extension === 'xml' || $extension === 'csv') {
 				$directory = $extension;
 			}
-			if ($extension === 'eot' || $extension === 'woff' || $extension === 'ttf') {
+			if ($extension === 'eot' || $extension === 'woff' || $extension === 'woff2' || $extension === 'ttf' || $extension === 'svg') {
 				$directory = 'fonts';
 			}
 			if ($directory === 'images' || $directory === 'xml' || $directory === 'csv') {

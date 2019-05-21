@@ -56,6 +56,9 @@ class Kernel {
 			case 'frontend':
 				$namespaces['Pariter\Frontend\Controllers'] = __DIR__ . '/../' . $module . '/controllers/';
 				break;
+			case 'application':
+				$namespaces['Pariter\Application\Controllers'] = __DIR__ . '/../' . $module . '/controllers/';
+				break;
 			case 'task':
 				$namespaces['Pariter\Tasks'] = __DIR__ . '/../tasks/';
 				break;
@@ -235,6 +238,9 @@ class Kernel {
 							});
 					$volt->getCompiler()->addFilter('js', function ($resolvedArgs, $exprArgs) {
 								return sprintf('Dugwood\Core\Formatter\Javascript::format(%s)', $resolvedArgs);
+							});
+					$volt->getCompiler()->addFunction('pos', function ($resolvedArgs) {
+								return sprintf('mb_strpos(%s)', $resolvedArgs);
 							});
 					return $volt;
 				}

@@ -59,16 +59,8 @@ class Url extends Injectable {
 					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'controller' => $type, 'action' => $parameters['action']]);
 					break;
 
-				case 'view':
-					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'controller' => $parameters['controller'], 'action' => $parameters['action'] ?? $type, 'id' => $parameters['id']]);
-					break;
-
-				case 'editAjax':
-					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'controller' => $parameters['controller'], 'action' => $type]);
-					break;
-
-				case 'list':
-					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'controller' => $parameters['controller'], 'action' => $type]);
+				case 'api':
+					$url = $di->getUrl()->get(['for' => $type, 'language' => $parameters['language'], 'prefix' => $parameters['prefix'], 'type' => isset($parameters['type']) ? $parameters['type'] : '', 'id' => isset($parameters['id']) ? $parameters['id'] : '', 'key' => isset($parameters['key']) ? $parameters['key'] : '']);
 					break;
 
 				case 'resource':
@@ -77,6 +69,15 @@ class Url extends Injectable {
 					$extension = pathinfo($resource, PATHINFO_EXTENSION);
 					if (($file = File::findFile($filename, $extension)) !== false) {
 						$url = $di->getUrl()->get(['for' => 'resource', 'name' => $filename, 'type' => $extension, 'checksum' => $file['filemtime']]);
+					}
+					break;
+
+				case 'application-resource':
+					$pathinfo = pathinfo(preg_replace('~[^/a-z0-9\.\-_]+~i', '', $parameters['file']));
+					$pathinfo['dirname'] = str_replace('.', '', $pathinfo['dirname']);
+					if (($file = File::findFile($pathinfo['filename'], $pathinfo['extension'], $di->getConfig()->application->htdocs . ltrim($pathinfo['dirname'], '/'))) !== false) {
+						/* Using filemtime, much faster than reading content + md5/sha1/crc32 */
+						$url = $di->getUrl()->get(['for' => 'application-resource', 'name' => $pathinfo['filename'], 'type' => $pathinfo['extension'], 'directory' => $pathinfo['dirname'] ? trim($pathinfo['dirname'], '/') : 'root', 'checksum' => $file['filemtime']]);
 					}
 					break;
 

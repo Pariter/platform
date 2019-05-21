@@ -29,5 +29,8 @@ return [
 	'language' => '',
 	'media' => $mediaRoot,
 	'resources' => $mediaRoot . 'resources/',
-	'images' => $mediaRoot . 'images/'
+	'images' => $mediaRoot . 'images/',
+	'application' => [
+		'htdocs' => $root . 'application/www/'
+	]
 ];

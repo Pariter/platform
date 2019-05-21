@@ -3,7 +3,7 @@
 {% endif %}
 {% if registered %}
 	<script>
-		window.opener.location.href = '{{ 'auth'|url({'action':'profile'}) }}';
+		window.opener._hybrid.redirect('{{ token }}');
 		window.close();
 	</script>
 {% else %}

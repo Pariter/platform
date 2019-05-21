@@ -1,0 +1,31 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>
+			Pariter
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list *ngIf="parameters.debug === true && parameters.logEntries.length">
+		<ion-item>
+			Debug:
+			<ul *ngFor="let entry of parameters.logEntries">
+				<li>{{ entry }}</li>
+			</ul>
+		</ion-item>
+	</ion-list>
+
+	<ion-card>
+		<ion-card-header>
+			<ion-card-title>{{ 'users' | translate }}</ion-card-title>
+		</ion-card-header>
+		<ion-list>
+			<ion-item *ngFor="let user of users">
+				<ion-label>
+					<a [routerLink]="router.get('users::view', user.id)">{{ user.attributes.displayName }}</a>
+				</ion-label>
+			</ion-item>
+		</ion-list>
+	</ion-card>
+</ion-content>

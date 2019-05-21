@@ -9,10 +9,13 @@ body {
 .form-messages {
 	display:none;
 }
-.btn-loader,
-.btn-loader:active {
-	padding-right:40px;
-	background-image:url(__loader.gif__);
-	background-position:right center;
-	background-repeat:no-repeat;
+/* Loading icon */
+.btn i,
+.btn:active i {
+	color:#486cc0;
+	display:none;
+}
+.btn-loader i,
+.btn-loader:active i {
+	display:inline-block;
 }

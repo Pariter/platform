@@ -3,8 +3,8 @@
 Source of the main web platform.
 
 For now it's using:
-- Phalcon (PHP Framework)
-- Bootstrap (CSS Framework)
+- Phalcon (PHP Framework) https://phalconphp.com/
+- Ionic (Progressive Web App Framework) https://ionicframework.com/
 
 # Development (with Docker)
 If you want to help, we've setup a Docker configuration for you.
@@ -27,3 +27,11 @@ https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-
 
 ## Side note about post-installation script
 There's no easy option to run a post-installation script on Docker with `docker-compose.yml`. See https://github.com/docker/compose/issues/1809 for instance.
+
+# Development with Ionic
+
+## Running the local service
+1. move to `application` directory: `cd application`
+2. run: `ionic serve --local`
+
+If your changes aren't reflected (live reload), you may need to bypass inotify limits (see https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers for example)

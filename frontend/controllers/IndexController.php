@@ -13,12 +13,32 @@ class IndexController extends Controller {
 
 	/**
 	 * @CacheControl(surrogate=3600)
+	 * @GetParameters({from})
 	 */
 	public function loginAction() {
 
 		$config = $this->di->getConfig();
 		$providers = parse_ini_file($config->root . 'config/providers.ini', true);
 		$this->view->setVar('providers', array_keys($providers));
+
+		switch ($this->request->getQuery('from')) {
+			case 'l':
+				$this->view->setVar('_ignoreNav', true);
+				$this->view->setVar('from', 'application');
+				$this->view->setVar('origin', 'http://localhost:8100/');
+				break;
+
+			case 'd':
+				$this->view->setVar('_ignoreNav', true);
+				$this->view->setVar('from', 'application');
+				$this->view->setVar('origin', 'https://dev.application.pariter.io/');
+				break;
+
+			default:
+				$this->view->setVar('from', 'index');
+				$this->view->setVar('origin', 'https://application.pariter.io/');
+				break;
+		}
 
 		/* Alternative urls */
 		$hreflang = [];
