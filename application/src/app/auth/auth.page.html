@@ -17,9 +17,6 @@
 	</ion-list>
 
 	<ion-card *ngIf="!parameters.token">
-		<ion-card-header>
-			<ion-card-title>{{ 'signin' | translate }}</ion-card-title>
-		</ion-card-header>
 		<ion-card-content>
 			<iframe [src]="parameters.auth"></iframe>
 		</ion-card-content>

@@ -58,35 +58,25 @@ class ResourceController extends Controller {
 				$content = str_replace('__DEBUG__', $this->config->debug === true ? 'true' : 'false', $content);
 				$productionFiles = [];
 
-				if ($name === 'cordova' && strpos($content, 'cordova_plugins.js') !== false) {
-					$content = str_replace('cordova_plugins.js', ltrim(Url::get('application-resource', ['file' => 'cordova_plugins.js']), '/'), $content);
-					$content = preg_replace('~function findCordovaPath.+?return path;~s', 'function findCordovaPath() { return \'/\';', $content);
-				} elseif ($name === 'cordova_plugins') {
-					$max = preg_match_all('~"(plugins/.+?)"~', $content, $resources);
-					for ($i = 0; $i < $max; $i++) {
-						$content = str_replace($resources[0][$i], '"' . ltrim(Url::get('application-resource', ['file' => $resources[1][$i]]), '/') . '"', $content);
-					}
-				} elseif (strpos($directory, $this->config->application->htdocs) !== 0 && $content) {
-					$max = preg_match_all('~/\*\s+include\s+([a-z\-]+\.js)\s+\*/~', $content, $includes);
-					for ($i = 0; $i < $max; $i++) {
-						if (substr($includes[1][$i], -7) === '-dev.js' && Configuration::dev === false) {
-							$content = str_replace($includes[0][$i], 'includeMinified(' . count($productionFiles) . ')', $content);
-							$productionFiles[] = __DIR__ . '/../../resources/js/' . str_replace('-dev.js', '-prod.js', $includes[1][$i]);
-						} else {
-							$include = __DIR__ . '/../../resources/js/' . $includes[1][$i];
-							if (!file_exists($include) || !($include = file_get_contents($include))) {
-								throw new Exception('Missing file: ' . $includes[1][$i]);
-							}
-							$content = str_replace($includes[0][$i], $include, $content);
+				$max = preg_match_all('~/\*\s+include\s+([a-z\-]+\.js)\s+\*/~', $content, $includes);
+				for ($i = 0; $i < $max; $i++) {
+					if (substr($includes[1][$i], -7) === '-dev.js' && Configuration::dev === false) {
+						$content = str_replace($includes[0][$i], 'includeMinified(' . count($productionFiles) . ')', $content);
+						$productionFiles[] = __DIR__ . '/../../resources/js/' . str_replace('-dev.js', '-prod.js', $includes[1][$i]);
+					} else {
+						$include = __DIR__ . '/../../resources/js/' . $includes[1][$i];
+						if (!file_exists($include) || !($include = file_get_contents($include))) {
+							throw new Exception('Missing file: ' . $includes[1][$i]);
 						}
+						$content = str_replace($includes[0][$i], $include, $content);
 					}
-					$max = preg_match_all('~__([^ ]+?\.[^ ]+?)__~', $content, $resources);
-					for ($i = 0; $i < $max; $i++) {
-						$content = str_replace($resources[0][$i], Url::get('resource', ['file' => $resources[1][$i]]), $content);
-						$this->cache->addBanHeader('pariter-static-file-' . str_replace('.', '-', $resources[1][$i]));
-					}
-					Javascript::compress($content);
 				}
+				$max = preg_match_all('~__([^ ]+?\.[^ ]+?)__~', $content, $resources);
+				for ($i = 0; $i < $max; $i++) {
+					$content = str_replace($resources[0][$i], Url::get('resource', ['file' => $resources[1][$i]]), $content);
+					$this->cache->addBanHeader('pariter-static-file-' . str_replace('.', '-', $resources[1][$i]));
+				}
+				Javascript::compress($content);
 
 				/* Production files are already minified */
 				if (count($productionFiles) > 0) {
@@ -104,42 +94,21 @@ class ResourceController extends Controller {
 				break;
 
 			case 'css':
-				if (strpos($directory, $this->config->application->htdocs) !== 0) {
-					$max = preg_match_all('~/\*\s+include\s+([a-z\-]+\.css)\s+\*/~', $content, $includes);
-					for ($i = 0; $i < $max; $i++) {
-						$include = __DIR__ . '/../../resources/css/' . $includes[1][$i];
-						if (!file_exists($include) || !($include = file_get_contents($include))) {
-							throw new Exception('Missing file: ' . $includes[1][$i]);
-						}
-						$content = str_replace($includes[0][$i], $include, $content);
-					}
-					$max = preg_match_all('~__(.+?\..+?)__~', $content, $resources);
-					for ($i = 0; $i < $max; $i++) {
-						$content = str_replace($resources[0][$i], Url::get('resource', ['file' => $resources[1][$i]]), $content);
-						$this->cache->addBanHeader('pariter-static-file-' . str_replace('.', '-', $resources[1][$i]));
-					}
-				}
-
-				/* Add release to static files */
-				$max = preg_match_all('~url\((.+?)\)~', $content, $sources);
+				$max = preg_match_all('~/\*\s+include\s+([a-z\-]+\.css)\s+\*/~', $content, $includes);
 				for ($i = 0; $i < $max; $i++) {
-					$sources[1][$i] = trim($sources[1][$i], '"');
-					if (strpos($sources[1][$i], 'data') !== 0) {
-						$source = str_replace('../', '', $sources[1][$i]);
-						if (($pos = strpos($source, '?')) !== false) {
-							$source = substr($source, 0, $pos);
-						}
-						$hash = '';
-						if (($pos = strpos($sources[1][$i], '#')) !== false) {
-							$hash = substr($sources[1][$i], $pos);
-						}
-						$content = str_replace($sources[0][$i], 'url(' . Url::get('application-resource', ['file' => $source]) . $hash . ')', $content);
+					$include = __DIR__ . '/../../resources/css/' . $includes[1][$i];
+					if (!file_exists($include) || !($include = file_get_contents($include))) {
+						throw new Exception('Missing file: ' . $includes[1][$i]);
 					}
+					$content = str_replace($includes[0][$i], $include, $content);
+				}
+				$max = preg_match_all('~__(.+?\..+?)__~', $content, $resources);
+				for ($i = 0; $i < $max; $i++) {
+					$content = str_replace($resources[0][$i], Url::get('resource', ['file' => $resources[1][$i]]), $content);
+					$this->cache->addBanHeader('pariter-static-file-' . str_replace('.', '-', $resources[1][$i]));
 				}
 
-				if (strpos($directory, $this->config->application->htdocs) !== 0 && $content) {
-					Css::compress($content);
-				}
+				Css::compress($content);
 
 				$this->response->setContentType('text/css');
 				break;

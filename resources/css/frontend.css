@@ -3,7 +3,7 @@
 body {
 	min-width:320px;
 	color:#fff;
-	background-color:#4abdea;
+	background-color:#5aa8e3;
 }
 
 .form-messages {
@@ -18,4 +18,40 @@ body {
 .btn-loader i,
 .btn-loader:active i {
 	display:inline-block;
+}
+
+h1.with-logo {
+	text-align:center;
+}
+h1.with-logo div {
+	display:inline-block;
+	padding-left:80px;
+	height:80px;
+	line-height:80px;
+	background:url(__logo-blue-circle.png__) left center no-repeat;
+}
+
+#signin {
+	padding:0 20px 20px;
+	background-color:#fff;
+	color:#334b5f;
+}
+#signin h2 {
+	text-align:left;
+	padding-bottom:20px;
+}
+
+.btn-auth {
+	color:#fff;
+	border:0;
+	padding-left:30px;
+	background:5px center no-repeat;
+}
+.btn-github {
+	background-image:url(__auth-github.png__);
+	background-color:#5a5f69;
+}
+.btn-linkedin {
+	background-image:url(__auth-linkedin.png__);
+	background-color:#00a0dc;
 }
